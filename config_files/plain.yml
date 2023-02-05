@@ -1,0 +1,31 @@
+# Dataset configuration
+dataset:
+  data_files:
+    training: 'data/D_theta_fixed/dataset_5_10000.h5'
+    validation: 'data/D_theta_fixed/dataset_5_10000.h5'
+    test: null
+  # Number of measures per configuration
+  nmeasures: 1000
+  batch_size: 64
+  labels_choice: [2]
+# Model configuration
+model:
+  output_path: 'model.h5'
+  predefined_model: null
+  model_type: 'plain' # plain/conv/recurrent
+  layers:
+    dense_layers: [
+      {units: 256, activation: 'tanh'},
+      {units: 256, activation: 'tanh'},
+      {units: 256, activation: 'tanh'}
+    ]
+# Training configuration
+training:
+  loss: 'mse'
+  metrics: 'mae'
+  optimizer: 'adam'
+  epochs: 5
+# Training configuration
+# plot_results:
+#   plot_model: true
+#   log_scale: true

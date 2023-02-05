@@ -1,0 +1,10 @@
+name: dqsensing
+dependencies:
+    - python
+    - numpy
+    - pyyaml
+    - h5py
+    - matplotlib
+    - pip:
+        - tensorflow
+        - pydot
