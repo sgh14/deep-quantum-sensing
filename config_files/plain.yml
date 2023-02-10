@@ -11,7 +11,7 @@ dataset:
   basis_type: 'algebraic'
 # Model configuration
 model:
-  output_path: 'model.h5'
+  model_dir: 'model'
   predefined_model: null
   model_type: 'plain' # plain/conv/recurrent
   layers:
@@ -25,8 +25,8 @@ training:
   loss: 'mse'
   metrics: 'mae'
   optimizer: 'adam'
-  epochs: 5
-# Training configuration
-# plot_results:
-#   plot_model: true
-#   log_scale: true
+  epochs: 2
+# Plots configuration
+plotting:
+  plot_model: true
+  log_scale: true

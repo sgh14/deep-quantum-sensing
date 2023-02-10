@@ -11,7 +11,7 @@ dataset:
   basis_type: 'computational'
 # Model configuration
 model:
-  output_path: 'model.h5'
+  model_dir: 'model'
   predefined_model: null
   model_type: 'conv' # plain/conv/recurrent
   layers:
@@ -30,7 +30,7 @@ training:
   metrics: 'mae'
   optimizer: 'adam'
   epochs: 5
-# Training configuration
-# plot_results:
-#   plot_model: true
-#   log_scale: true
+# Plots configuration
+plotting:
+  plot_model: true
+  log_scale: true

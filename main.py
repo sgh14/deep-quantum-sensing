@@ -1,9 +1,11 @@
 import argparse
 import yaml
 from tensorflow.keras import models
+import os
 
 from generator import Generator
 from models import get_model
+from plot_results import plot_results
 
 
 def parse_commandline():
@@ -23,6 +25,8 @@ def main():
     with open(args.config_file, 'r') as config_file:
         c = yaml.safe_load(config_file)
 
+    model_dir = c['model']['model_dir']
+    os.makedirs(model_dir, exist_ok=True)
     data_files = c['dataset'].pop('data_files')
     training_data = Generator(data_files['training'], **c['dataset'])
     validation_data = Generator(data_files['validation'], **c['dataset'])
@@ -46,10 +50,9 @@ def main():
         validation_data=validation_data,
         epochs=c['training']['epochs']
     )
-    model.save(c['model']['output_path'])
+    model.save(os.path.join(model_dir, 'model.h5'))
     # model.evaluate()
-    # model.predict()
-    # TODO: plot_results(model, history, c['plot_results'])
+    plot_results(model, history, model_dir, c['plotting'])
 
 
 if __name__ == "__main__":
