@@ -5,6 +5,7 @@ import os
 
 from generator import Generator
 from models import get_model
+from save_results import save_results
 from plot_results import plot_results
 
 
@@ -50,7 +51,7 @@ def main():
         validation_data=validation_data,
         epochs=c['training']['epochs']
     )
-    model.save(os.path.join(model_dir, 'model.h5'))
+    save_results(model, history, model_dir)
     # model.evaluate()
     plot_results(model, history, model_dir, c['plotting'])
 
