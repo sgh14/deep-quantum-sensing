@@ -8,6 +8,7 @@ dataset:
   nmeasures: 1000
   batch_size: 64
   labels_choice: [2]
+  basis_type: 'computational'
 # Model configuration
 model:
   output_path: 'model.h5'

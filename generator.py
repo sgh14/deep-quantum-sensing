@@ -15,8 +15,16 @@ def read_data(data_file):
 
 class Generator(Sequence):
     
-    def __init__(self, data_file, nmeasures, batch_size, labels_choice):
-        self.basis, self.probabilities, labels = read_data(data_file)
+    def __init__(
+        self,
+        data_file,
+        nmeasures,
+        batch_size,
+        labels_choice,
+        basis_type='computational'
+    ):
+        basis, self.probabilities, labels = read_data(data_file)
+        self.basis = np.eye(basis.shape[0]) if basis_type=='algebraic' else basis
         self.labels = labels[:, labels_choice]
         self._indices = np.arange(self.basis.shape[0])
 
@@ -38,10 +46,10 @@ class Generator(Sequence):
 
     def __getitem__(self, index):
         ids = np.arange(index*self.batch_size, (index+1)*self.batch_size)
-        X = np.array([self._measure(self.probabilities[i]) for i in ids])
+        x = np.array([self._measure(self.probabilities[i]) for i in ids])
         y = self.labels[ids]
 
-        return X, y
+        return x, y
     
 
     def __len__(self):
