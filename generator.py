@@ -31,9 +31,8 @@ class Generator(Sequence):
         self.batch_size = batch_size
         self.num_samples = self.probabilities.shape[0] # nconfigs
         self.nmeasures = nmeasures
-        self.nqubits = self.basis.shape[1]
                 
-        self.input_shape = (self.nmeasures, self.nqubits)
+        self.input_shape = (self.nmeasures, self.basis.shape[1])
         self.output_shape = self.labels.shape[-1]
 
 
