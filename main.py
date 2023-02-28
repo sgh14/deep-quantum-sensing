@@ -1,6 +1,6 @@
 import argparse
 import yaml
-from tensorflow.keras import models
+from tensorflow.keras import models, optimizers
 import os
 import wandb
 
@@ -23,6 +23,7 @@ def parse_commandline():
 
 
 def main():
+
     args = parse_commandline()
     with open(args.config_file, 'r') as config_file:
         c = yaml.safe_load(config_file)
@@ -57,7 +58,7 @@ def main():
     model.compile(
         loss=c['training']['loss'],
         metrics=c['training']['metrics'],
-        optimizer=c['training']['optimizer']
+        optimizer=optimizers.Adam(**c['training']['adam_config'])
     )
     history = model.fit(
         training_data,

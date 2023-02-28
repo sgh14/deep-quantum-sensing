@@ -24,7 +24,7 @@ model:
 training:
   loss: 'mse'
   metrics: 'mae'
-  optimizer: 'adam'
+  adam_config: {learning_rate: 0.001}
   epochs: 2
 # Plots configuration
 plotting:
