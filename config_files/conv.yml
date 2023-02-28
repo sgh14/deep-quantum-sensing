@@ -11,7 +11,7 @@ dataset:
   basis_type: 'computational'
 # Model configuration
 model:
-  model_dir: 'model'
+  model_dir: 'results/conv_model'
   predefined_model: null
   model_type: 'conv' # plain/conv/recurrent
   layers:
@@ -24,12 +24,13 @@ model:
     dense_layers: [
       {units: 32, activation: 'relu'}
     ]
+  dropout: 0
 # Training configuration
 training:
   loss: 'mse'
   metrics: 'mae'
   adam_config: {learning_rate: 0.001}
-  epochs: 5
+  epochs: 10
 # Plots configuration
 plotting:
   plot_model: true

@@ -11,7 +11,7 @@ dataset:
   basis_type: 'computational'
 # Model configuration
 model:
-  model_dir: 'model'
+  model_dir: 'results/recurrent_model'
   predefined_model: null
   model_type: 'recurrent' # plain/conv/recurrent
   recurrent_type: 'LSTM'
@@ -22,12 +22,13 @@ model:
       {units: 1, dropout: 0.05, recurrent_dropout: 0.2, return_sequences: False},
     ]
     dense_layers: []
+  dropout: 0
 # Training configuration
 training:
   loss: 'mse'
   metrics: 'mae'
   adam_config: {learning_rate: 0.001}
-  epochs: 5
+  epochs: 10
 # Plots configuration
 plotting:
   plot_model: true
