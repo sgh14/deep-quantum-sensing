@@ -8,7 +8,13 @@ Deep learning to make predictions from quantum sensor measurements.
 $ conda env create -f environment.yml
 ```
 
-Note: Plotting the model arquitecture requieres the installation of graphviz. Otherwise, this installation is not necessary.
+To use W&B, first it is necessary to run
+
+```
+$ wandb login
+```
+
+Additionally, plotting the model arquitecture requieres the installation of graphviz. Otherwise, this installation is not necessary.
 
 ## Usage
 

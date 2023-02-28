@@ -2,6 +2,7 @@ import argparse
 import yaml
 from tensorflow.keras import models
 import os
+import wandb
 
 from generator import Generator
 from models import get_model
@@ -26,6 +27,18 @@ def main():
     with open(args.config_file, 'r') as config_file:
         c = yaml.safe_load(config_file)
 
+    wandb.init(
+        project="dqsensing",
+        config = {
+            'Dataset': c['dataset'],
+            'Model': c['model'], 
+            'Training': c['training']
+        }
+    )
+    config_artifact = wandb.Artifact('config_file', type='config_file')
+    config_artifact.add_file(args.config_file)
+    wandb.log_artifact(config_artifact)
+
     model_dir = c['model']['model_dir']
     os.makedirs(model_dir, exist_ok=True)
     data_files = c['dataset'].pop('data_files')
@@ -49,7 +62,8 @@ def main():
     history = model.fit(
         training_data,
         validation_data=validation_data,
-        epochs=c['training']['epochs']
+        epochs=c['training']['epochs'],
+        callbacks=[wandb.keras.WandbCallback(save_model=False)]
     )
     save_results(model, history, model_dir)
     # model.evaluate()
