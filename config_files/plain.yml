@@ -1,13 +1,12 @@
 # Dataset configuration
 dataset:
   data_files:
-    training: 'data/D_theta_fixed/dataset_5_10000.h5'
-    validation: 'data/D_theta_fixed/dataset_5_10000.h5'
-    test: null
+    training: 'data/triangular/train_100000.h5'
+    validation: 'data/triangular/val_10000.h5'
   # Number of measures per configuration
-  nmeasures: 10000
+  nmeasures: 1000
   batch_size: 256
-  labels_choice: [2]
+  labels_choice: [0, 1]
   basis_type: 'algebraic'
 # Model configuration
 model:
@@ -25,7 +24,7 @@ training:
   loss: 'mse'
   metrics: 'mae'
   adam_config: {learning_rate: 0.001}
-  epochs: 3
+  epochs: 50
 # Plots configuration
 plotting:
   plot_model: true

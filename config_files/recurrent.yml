@@ -1,13 +1,12 @@
 # Dataset configuration
 dataset:
   data_files:
-    training: 'data/D_theta_fixed/dataset_5_10000.h5'
-    validation: 'data/D_theta_fixed/dataset_5_10000.h5'
-    test: null
+    training: 'data/triangular/train_100000.h5'
+    validation: 'data/triangular/val_10000.h5'
   # Number of measures per configuration
   nmeasures: 1000
   batch_size: 64
-  labels_choice: [2]
+  labels_choice: [0, 1]
   basis_type: 'computational'
 # Model configuration
 model:
@@ -16,10 +15,11 @@ model:
   model_type: 'recurrent' # plain/conv/recurrent
   recurrent_type: 'LSTM'
   layers:
+    frequency_layer: 1 # False/None or spin of the qudits
     recurrent_layers: [
       {units: 100, dropout: 0.05, recurrent_dropout: 0.2, return_sequences: True},
       {units: 10, dropout: 0.05, recurrent_dropout: 0.2, return_sequences: True},
-      {units: 1, dropout: 0.05, recurrent_dropout: 0.2, return_sequences: False},
+      {units: 2, dropout: 0.05, recurrent_dropout: 0.2, return_sequences: False},
     ]
     dense_layers: []
   dropout: 0
@@ -28,7 +28,7 @@ training:
   loss: 'mse'
   metrics: 'mae'
   adam_config: {learning_rate: 0.001}
-  epochs: 10
+  epochs: 25
 # Plots configuration
 plotting:
   plot_model: true
