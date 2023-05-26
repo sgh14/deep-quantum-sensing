@@ -5,16 +5,15 @@ from tensorflow.keras.utils import Sequence
 
 
 def read_data(data_file):
-    file = h5py.File(data_file, 'r')
-    basis = np.array(file['/basis'])
-    probabilities = np.array(file['/probabilities'])
-    labels = np.array(file['/labels'])
+    with h5py.File(data_file, 'r') as file:
+        basis = np.array(file['/basis'])
+        probabilities = np.array(file['/probabilities'])
+        labels = np.array(file['/coords_0'])
 
     return basis, probabilities, labels
 
 
 class Generator(Sequence):
-    
     def __init__(
         self,
         data_file,
@@ -49,7 +48,7 @@ class Generator(Sequence):
         y = self.labels[ids]
 
         return x, y
-    
+
 
     def __len__(self):
         return self.num_samples // self.batch_size

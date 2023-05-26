@@ -23,7 +23,6 @@ def parse_commandline():
 
 
 def main():
-
     args = parse_commandline()
     with open(args.config_file, 'r') as config_file:
         c = yaml.safe_load(config_file)
@@ -45,7 +44,6 @@ def main():
     data_files = c['dataset'].pop('data_files')
     training_data = Generator(data_files['training'], **c['dataset'])
     validation_data = Generator(data_files['validation'], **c['dataset'])
-    # test_data = Generator(data_files['test'], **c['dataset'])
 
     input_shape = training_data.input_shape
     output_shape = training_data.output_shape
@@ -67,7 +65,6 @@ def main():
         callbacks=[wandb.keras.WandbCallback(save_model=False)]
     )
     save_results(model, history, model_dir)
-    # model.evaluate()
     plot_results(model, history, model_dir, c['plotting'])
 
 
