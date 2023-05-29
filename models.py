@@ -1,29 +1,10 @@
-import tensorflow as tf
 from tensorflow.keras import layers, models
 
 
-class FrequencyLayer(layers.Layer):
-    def __init__(self, spin, **kwargs):
-        super(FrequencyLayer, self).__init__(**kwargs)
-        self.spin_vals = list(range(-spin, spin + 1))
-
-
-    def call(self, inputs):
-        counts = []
-        for s in self.spin_vals:
-            counts.append(tf.reduce_sum(tf.cast(tf.equal(inputs, s), tf.int32), axis=1))
-
-        frequencies = tf.divide(tf.stack(counts, axis=1), inputs.shape[1])
-
-        return frequencies
-    
-
 def get_plain_model(input_shape, output_shape, config):
-    nmeasures = input_shape[0]
     dropout = config['dropout']
-    model = models.Sequential()
-    model.add(layers.Reshape(input_shape + (1,), input_shape=input_shape))
-    model.add(layers.AveragePooling2D(pool_size=(nmeasures, 1), strides=(1, 1)))
+    model = models.Sequential([layers.InputLayer(input_shape=input_shape)])
+    model.add(layers.AveragePooling1D(pool_size=input_shape[0], strides=1))
     model.add(layers.Flatten())
     for layer_config in config['layers']['dense_layers']:
         model.add(layers.Dense(**layer_config))
@@ -37,13 +18,11 @@ def get_plain_model(input_shape, output_shape, config):
 
 def get_conv_model(input_shape, output_shape, config):
     dropout = config['dropout']
-    model = models.Sequential()
-    if config['layers']['frequency_layer']:
-        spin = config['layers']['frequency_layer']
-        model.add(FrequencyLayer(spin=spin, input_shape=input_shape))
-        input_shape = (2*spin + 1, input_shape[1])
-    
-    model.add(layers.Reshape(input_shape + (1,), input_shape=input_shape)) # (batch, vals, qudits, 1))
+    model = models.Sequential([layers.InputLayer(input_shape=input_shape)])
+    if config['layers']['spin_average']:
+        model.add(layers.AveragePooling1D(pool_size=input_shape[0], strides=1))
+
+    model.add(layers.Reshape(input_shape + (1,))) # (batch, vals, qudits, 1))        
     for layer_config in config['layers']['conv_layers']:
         model.add(layers.Conv2D(**layer_config))
         if dropout:
@@ -69,13 +48,11 @@ def get_recurrent_model(input_shape, output_shape, config):
     else:
         recurrent_layer = layers.SimpleRNN
 
-    model = models.Sequential()
-    if config['layers']['frequency_layer']:
-        spin = config['layers']['frequency_layer']
-        model.add(FrequencyLayer(spin=spin, input_shape=input_shape))
-        input_shape = (2*spin + 1, input_shape[1])
+    model = models.Sequential([layers.InputLayer(input_shape=input_shape)])
+    if config['layers']['spin_average']:
+        model.add(layers.AveragePooling1D(pool_size=input_shape[0], strides=1))
 
-    model.add(layers.Permute((2, 1), input_shape=input_shape)) # (batch, qudits, vals))
+    model.add(layers.Permute((2, 1))) # (batch, qudits, vals))
     for layer_config in config['layers']['recurrent_layers']:
         model.add(layers.Bidirectional(recurrent_layer(**layer_config)))
         if dropout:
