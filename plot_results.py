@@ -9,10 +9,14 @@ def plot_history(history, log_scale, model_dir):
     keys = [key for key in h.keys() if not key.startswith('val_')]
     for key in keys:
         y = np.array([h[key], h['val_' + key]])
-        y = np.log10(y) if log_scale else y
         fig, ax = plt.subplots()
-        ax.plot(y[0], label='Training')
-        ax.plot(y[1], label='Validation')
+        if log_scale:
+            ax.semilogy(y[0], label='Training')
+            ax.semilogy(y[1], label='Validation')
+        else:
+            ax.plot(y[0], label='Training')
+            ax.plot(y[1], label='Validation')
+
         ax.set_ylabel(key)
         ax.set_xlabel('Epoch')
         ax.legend()
