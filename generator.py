@@ -24,7 +24,9 @@ class Generator(Sequence):
     ):
         basis, self.probabilities, labels = read_data(data_file)
         self.basis = np.eye(basis.shape[0]) if basis_type=='algebraic' else basis
-        self.labels = labels[:, labels_choice]
+        labels = labels[:, labels_choice]
+        labels = labels/10**np.floor(np.log10(np.max(np.abs(labels))))
+        self.labels = labels
         self._indices = np.arange(self.basis.shape[0])
 
         self.batch_size = batch_size
