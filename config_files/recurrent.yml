@@ -15,7 +15,7 @@ model:
   model_type: 'recurrent' # plain/conv/recurrent
   recurrent_type: 'RNN' # RNN/LSTM/GRU
   layers:
-    spin_average: false
+    spin_average: true
     recurrent_layers: [
 # Plots configuration
       {units: 100, activation: 'relu', kernel_initializer: 'he_normal', return_sequences: True},
