@@ -4,34 +4,31 @@ dataset:
     training: 'data/triangular/train_100000.h5'
     validation: 'data/triangular/val_10000.h5'
   # Number of measures per configuration
-  nmeasures: 1000
+  nmeasures: 10000
   batch_size: 64
   labels_choice: [0, 1]
-  basis_type: 'computational'
+  basis_type: 'computational' # computational/algebraic
 # Model configuration
 model:
   model_dir: 'results/conv_model'
   predefined_model: null
   model_type: 'conv' # plain/conv/recurrent
   layers:
-    frequency_layer: 1 # False/None or spin of the qudits
+    spin_average: true
     conv_layers: [
-      {filters: 128, kernel_size: [1, 2], strides: [1, 1], activation: 'relu'},
-      # {filters: 32, kernel_size: [1, 2], strides: [1, 1], activation: 'relu'},
-      # {filters: 8, kernel_size: [1, 2], strides: [1, 1], activation: 'relu'},
-      {filters: 2, kernel_size: [1, 2], strides: [1, 1], activation: 'relu'}
-      {filters: 2, kernel_size: [3, 1], strides: [1, 1], activation: 'relu'}
+      {filters: 300, kernel_size: [1, 2], activation: 'relu', kernel_initializer: 'he_normal'},
+      {filters: 300, kernel_size: [1, 2], activation: 'relu', kernel_initializer: 'he_normal'}
     ]
     dense_layers: [
-      # {units: 32, activation: 'relu'}
+      {units: 300, activation: 'relu', kernel_initializer: 'he_normal'}
     ]
   dropout: 0
 # Training configuration
 training:
-  loss: 'mse'
+  loss: 'mae'
   metrics: 'mae'
   adam_config: {learning_rate: 0.001}
-  epochs: 25
+  epochs: 100
 # Plots configuration
 plotting:
   plot_model: true

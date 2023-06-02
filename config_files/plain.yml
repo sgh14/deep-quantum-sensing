@@ -4,10 +4,10 @@ dataset:
     training: 'data/triangular/train_100000.h5'
     validation: 'data/triangular/val_10000.h5'
   # Number of measures per configuration
-  nmeasures: 1000
-  batch_size: 256
+  nmeasures: 10000
+  batch_size: 64
   labels_choice: [0, 1]
-  basis_type: 'algebraic'
+  basis_type: 'computational' # computational/algebraic
 # Model configuration
 model:
   model_dir: 'results/plain_model'
@@ -15,16 +15,16 @@ model:
   model_type: 'plain' # plain/conv/recurrent
   layers:
     dense_layers: [
-      {units: 256, activation: 'tanh'},
-      {units: 256, activation: 'tanh'},
+      {units: 500, activation: 'relu', kernel_initializer: 'he_normal'},
+      {units: 500, activation: 'relu', kernel_initializer: 'he_normal'},
     ]
-  dropout: 0.001
+  dropout: 0
 # Training configuration
 training:
-  loss: 'mse'
+  loss: 'mae'
   metrics: 'mae'
-  adam_config: {learning_rate: 0.001}
-  epochs: 50
+  adam_config: {learning_rate: 0.01}
+  epochs: 100
 # Plots configuration
 plotting:
   plot_model: true

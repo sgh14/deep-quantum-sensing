@@ -4,31 +4,31 @@ dataset:
     training: 'data/triangular/train_100000.h5'
     validation: 'data/triangular/val_10000.h5'
   # Number of measures per configuration
-  nmeasures: 1000
+  nmeasures: 10000
   batch_size: 64
   labels_choice: [0, 1]
-  basis_type: 'computational'
+  basis_type: 'computational' # computational/algebraic
 # Model configuration
 model:
   model_dir: 'results/recurrent_model'
   predefined_model: null
   model_type: 'recurrent' # plain/conv/recurrent
-  recurrent_type: 'LSTM'
+  recurrent_type: 'RNN' # RNN/LSTM/GRU
   layers:
-    frequency_layer: 1 # False/None or spin of the qudits
+    spin_average: false
     recurrent_layers: [
-      {units: 100, dropout: 0.05, recurrent_dropout: 0.2, return_sequences: True},
-      {units: 10, dropout: 0.05, recurrent_dropout: 0.2, return_sequences: True},
-      {units: 2, dropout: 0.05, recurrent_dropout: 0.2, return_sequences: False},
+# Plots configuration
+      {units: 100, activation: 'relu', kernel_initializer: 'he_normal', return_sequences: True},
+      {units: 100, activation: 'relu', kernel_initializer: 'he_normal', return_sequences: False},
     ]
     dense_layers: []
   dropout: 0
 # Training configuration
 training:
-  loss: 'mse'
+  loss: 'mae' # mse/mae/msle/logcosh/huber
   metrics: 'mae'
   adam_config: {learning_rate: 0.001}
-  epochs: 25
+  epochs: 100
 # Plots configuration
 plotting:
   plot_model: true
