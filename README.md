@@ -1,6 +1,6 @@
 # Deep Quantum Sensing
 
-Deep learning to make predictions from quantum sensor measurements.
+Deep learning to make predictions from quantum sensor measurements (simulated with [this repository](https://github.com/sgh14/quantum-sensor-simulation)).
 
 ## Set up
 
